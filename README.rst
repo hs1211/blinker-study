@@ -106,9 +106,20 @@ Flask APP
         user_followed.connect(user_followed_email)
 
 
+- app/user/user.py
 
+.. code-block:: python
 
-
+    def follow(self, user):
+        """Follow the given user.
+        Return `False` if the user was already following the user.
+        """
+        if self.is_following(user):
+            return False
+        self.followed.append(user)
+        # Publish the signal event using the current model (self) as sender.
+        user_followed.send(self)
+        return self
 
 
 LICENSE
